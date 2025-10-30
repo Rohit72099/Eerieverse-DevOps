@@ -1,0 +1,42 @@
+- name: Update packages
+  yum:
+    name: "*"
+    state: latest
+
+- name: Install Node.js and Git
+  yum:
+    name:
+      - nodejs
+      - git
+    state: present
+
+- name: Clone EerieVerse repository
+  git:
+    repo: "https://github.com/Rohit72099/Eerieverse2.git"
+    dest: /home/ec2-user/eerieverse
+    version: main
+
+- name: Install dependencies
+  npm:
+    path: /home/ec2-user/eerieverse/app/server
+    production: yes
+
+- name: Create environment file
+  copy:
+    dest: /home/ec2-user/eerieverse/app/server/.env
+    content: |
+      PORT={{ env_vars.PORT }}
+      NODE_ENV={{ env_vars.NODE_ENV }}
+      MONGO_URI={{ env_vars.MONGO_URI }}
+      JWT_SECRET={{ env_vars.JWT_SECRET }}
+
+- name: Create systemd service
+  template:
+    src: app.service.j2
+    dest: /etc/systemd/system/eerieverse.service
+
+- name: Start and enable service
+  systemd:
+    name: eerieverse
+    state: started
+    enabled: yes

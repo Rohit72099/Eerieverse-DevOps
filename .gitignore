@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Environment Variables
+.env
+*.env
+!.env.example
+
+# Ansible
+*.retry
+group_vars/*vault.yml
+*.pem
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+
+# Logs
+*.log
+
+# OS stuff
+.DS_Store
+Thumbs.db
