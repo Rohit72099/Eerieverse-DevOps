@@ -8,6 +8,7 @@ define host {
 define service {
   use                     generic-service
   host_name               eerieverse
-  service_description     HTTP
-  check_command           check_http! -I {{ groups['app'][0] }} -p {{ PORT }} -u /
+  service_description     HTTP Check
+  check_command           check_http!-I {{ hostvars[groups['app'][0]].ansible_host }} -p {{ PORT }}
 }
+

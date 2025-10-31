@@ -16,3 +16,5 @@
     - ../../group_vars/all.yml
   roles:
     - nagios
+
+ PORT: 8000

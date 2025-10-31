@@ -1,0 +1,116 @@
+---
+- name: Install prerequisites for Nagios
+  apt:
+    name:
+      - apache2
+      - php
+      - libapache2-mod-php
+      - build-essential
+      - libgd-dev
+      - unzip
+      - wget
+      - daemon
+      - libmcrypt-dev
+      - libssl-dev
+    state: present
+    update_cache: yes
+
+- name: Create nagios user and group
+  user:
+    name: nagios
+    system: yes
+    create_home: no
+    shell: /bin/false
+
+- name: Create nagcmd group
+  group:
+    name: nagcmd
+    state: present
+
+- name: Add www-data to nagcmd group
+  user:
+    name: www-data
+    groups: nagcmd
+    append: yes
+
+- name: Download Nagios Core
+  get_url:
+    url: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.6.tar.gz
+    dest: /tmp/nagios-core.tar.gz
+    mode: '0644'
+  register: nagios_tar
+
+- name: Extract Nagios tarball
+  unarchive:
+    src: /tmp/nagios-core.tar.gz
+    dest: /tmp/
+    remote_src: yes
+    creates: /tmp/nagios-4.4.6
+
+- name: Compile and install Nagios Core
+  shell: |
+    cd /tmp/nagios-4.4.6
+    ./configure --with-command-group=nagcmd
+    make all
+    make install
+    make install-init
+    make install-config
+    make install-commandmode
+    make install-webconf
+  args:
+    creates: /usr/local/nagios/bin/nagios
+
+- name: Install Nagios Plugins
+  get_url:
+    url: https://nagios-plugins.org/download/nagios-plugins-2.3.3.tar.gz
+    dest: /tmp/nagios-plugins.tar.gz
+  register: plugins_tar
+
+- name: Extract Nagios plugins
+  unarchive:
+    src: /tmp/nagios-plugins.tar.gz
+    dest: /tmp/
+    remote_src: yes
+    creates: /tmp/nagios-plugins-2.3.3
+
+- name: Compile and install Nagios plugins
+  shell: |
+    cd /tmp/nagios-plugins-2.3.3
+    ./configure
+    make
+    make install
+  args:
+    creates: /usr/local/nagios/libexec/check_http
+
+- name: Ensure apache2 is enabled and started
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Ensure nagios service is enabled and started
+  service:
+    name: nagios
+    state: started
+    enabled: yes
+
+- name: Create directory for server configs
+  file:
+    path: /usr/local/nagios/etc/servers
+    state: directory
+    owner: nagios
+    group: nagios
+    mode: '0755'
+
+- name: Deploy EerieVerse nagios config
+  template:
+    src: eerieverse.cfg.j2
+    dest: /usr/local/nagios/etc/servers/eerieverse.cfg
+    owner: nagios
+    group: nagios
+    mode: '0644'
+
+- name: Restart Nagios to pick config
+  service:
+    name: nagios
+    state: restarted
