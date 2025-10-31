@@ -1,5 +1,0 @@
-app_name: eerieverse
-node_app_port: "{{ PORT }}"
-environment: production
-repo_url: "https://github.com/Rohit72099/Eerieverse2.git"
-app_dir: "/home/ec2-user/eerieverse-app"

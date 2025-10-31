@@ -1,0 +1,8 @@
+app_name: eerieverse
+app_port: 8000
+
+# Vault variables (do not set value here)
+PORT: "{{ vault_port }}"
+DBURL: "{{ vault_dburl }}"
+SECRET_KEY: "{{ vault_secret_key }}"
+NODE_ENV: "{{ vault_node_env }}"
