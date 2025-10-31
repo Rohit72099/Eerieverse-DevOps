@@ -1,0 +1,18 @@
+---
+# Playbook to deploy EerieVerse app and Nagios
+- name: Deploy EerieVerse App (Node + Nginx + PM2)
+  hosts: app
+  become: yes
+  vars_files:
+    - ../../group_vars/all_vault.yml    # encrypted vault (PORT, DBURL, SECRET_KEY, NODE_ENV)
+    - ../../group_vars/all.yml
+  roles:
+    - eerieverse
+
+- name: Install and configure Nagios server
+  hosts: nagios
+  become: yes
+  vars_files:
+    - ../../group_vars/all.yml
+  roles:
+    - nagios

@@ -1,0 +1,13 @@
+define host {
+  use                     linux-server
+  host_name               eerieverse
+  alias                   EerieVerse App
+  address                 {{ groups['app'][0] }}
+}
+
+define service {
+  use                     generic-service
+  host_name               eerieverse
+  service_description     HTTP
+  check_command           check_http! -I {{ groups['app'][0] }} -p {{ PORT }} -u /
+}

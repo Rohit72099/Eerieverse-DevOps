@@ -1,8 +1,16 @@
-app_name: eerieverse
-app_port: 8000
+# app_name: eerieverse
+# app_port: 8000
 
-# Vault variables (do not set value here)
-PORT: "{{ vault_port }}"
-DBURL: "{{ vault_dburl }}"
-SECRET_KEY: "{{ vault_secret_key }}"
-NODE_ENV: "{{ vault_node_env }}"
+# # Vault variables (do not set value here)
+# PORT: "{{ vault_port }}"
+# DBURL: "{{ vault_dburl }}"
+# SECRET_KEY: "{{ vault_secret_key }}"
+# NODE_ENV: "{{ vault_node_env }}"
+
+
+# ---
+repo_url: "https://github.com/Rohit72099/Eerieverse-DevOps.git"
+app_dir: "/home/ubuntu/eerieverse"
+app_user: "ubuntu"
+nginx_site_name: "eerieverse"
+# No secret values here — PORT, DBURL, SECRET_KEY, NODE_ENV are in vault (all_vault.yml)
