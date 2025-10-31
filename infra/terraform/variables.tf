@@ -7,9 +7,9 @@ variable "key_name" {
 }
 
 variable "app_ami" {
-  default = "ami-0c2b8ca1dad447f8a"
+  default = "ami-0f58b397bc5c1f2e8"
 }
 
 variable "monitor_ami" {
-  default = "ami-0c2b8ca1dad447f8a"
+  default = "ami-0f58b397bc5c1f2e8"
 }
