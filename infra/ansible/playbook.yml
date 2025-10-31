@@ -6,6 +6,8 @@
   vars_files:
     - ../../group_vars/all_vault.yml    # encrypted vault (PORT, DBURL, SECRET_KEY, NODE_ENV)
     - ../../group_vars/all.yml
+  vars:
+    PORT: 8000  
   roles:
     - eerieverse
 
@@ -17,4 +19,3 @@
   roles:
     - nagios
 
- PORT: 8000
