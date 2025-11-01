@@ -1,11 +1,11 @@
 require("dotenv").config();
-let  express = require('express')
-let mongoose = require('mongoose');
+const express = require('express');
+const mongoose = require('mongoose');
 const router = require('./app/routes/user.route');
 const path = require('path');
-
-let cors = require('cors');
-let cookieParser = require('cookie-parser');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const connectDB = require('./config/database');
 
 // require('dotenv').config();
 
@@ -52,10 +52,18 @@ app.use(router);
 
 
 
-//connect to MongoDB   
-mongoose.connect(process.env.DBURL).then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(process.env.PORT || 8000, () => {
-        console.log("Server is running on port "+process.env.PORT);
-    });
-});
+// Connect to MongoDB and start server
+const startServer = async () => {
+    try {
+        await connectDB();
+        const port = process.env.PORT || 8000;
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    }
+};
+
+startServer();
