@@ -6,7 +6,9 @@ const path = require('path');
 let cors = require('cors');
 let cookieParser = require('cookie-parser');
 
-require('dotenv').config();
+// require('dotenv').config();
+require("dotenv").config();
+
 let app = express();
 
 app.use((req, res, next) => {
@@ -53,7 +55,7 @@ app.use(router);
 //connect to MongoDB   
 mongoose.connect(process.env.DBURL).then(() => {
     console.log('Connected to MongoDB');
-    app.listen(process.env.PORT || 3000, () => {
+    app.listen(process.env.PORT || 8000, () => {
         console.log("Server is running on port "+process.env.PORT);
     });
 });
