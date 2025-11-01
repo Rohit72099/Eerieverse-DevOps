@@ -3,11 +3,14 @@ Description=EerieVerse Node.js App
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node /home/ec2-user/eerieverse/app/server/index.js
+ExecStart=/usr/bin/node {{ app_dir }}/server/index.js
 Restart=always
-User=ec2-user
-Environment=NODE_ENV=production
-WorkingDirectory=/home/ec2-user/eerieverse/app/server
+User={{ app_user }}
+Environment=NODE_ENV={{ NODE_ENV | default('production') }}
+EnvironmentFile={{ app_dir }}/server/.env
+WorkingDirectory={{ app_dir }}/server
+
+
 
 [Install]
 WantedBy=multi-user.target

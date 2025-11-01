@@ -6,11 +6,12 @@
 
   tasks:
     - name: Install Node.js & Git
-      yum:
+      apt:
         name:
           - git
           - nodejs
         state: present
+        update_cache: yes
 
     - name: Pull latest code from Github
       git:

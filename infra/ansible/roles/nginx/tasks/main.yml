@@ -1,7 +1,8 @@
 - name: Install Nginx
-  yum:
+  apt:
     name: nginx
     state: present
+    update_cache: yes
 
 - name: Copy Nginx configuration
   template:
