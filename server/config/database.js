@@ -3,10 +3,14 @@ require('dotenv').config();
 
 const connectDB = async () => {
     try {
-        // Remove deprecated options
         const connectionParams = {
-            serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
-            socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+            serverApi: {
+                version: '1',
+                strict: true,
+                deprecationErrors: true,
+            },
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
         };
 
         console.log('Attempting to connect to MongoDB...');
